@@ -1,0 +1,102 @@
+ENABLED_SERVICES=g-api,g-reg,key,c-api,c-vol,c-sch,n-api,n-crt,n-cpu,n-net,n-cond,n-sch,n-novnc,n-xvnc,n-cauth,mysql,rabbit,u-api,u-post,tempest
+
+##################################
+# Enable Neutron (a single node setup) un-comment below commands
+##################################
+ disable_service n-net
+ enable_service q-svc
+ enable_service q-agt
+ enable_service q-dhcp
+ enable_service q-l3
+ enable_service q-meta
+ enable_service q-mon
+ enable_service neutron
+ Q_PLUGIN=ml2
+ Q_SERVICE_PLUGIN_CLASSES=router,vpnaas
+ Q_SERVICE_PROVIDER=VPN:sslvpn:neutron.services.vpn.service_drivers.sslvpn.SSLVPNDriver:default
+ Q_USE_DEBUG_COMMAND=True
+ Q_USE_SECGROUP=True
+ Q_ML2_TENANT_NETWORK_TYPE=vxlan,gre
+ NOVA_VIF_DRIVER=nova.virt.libvirt.vif.LibvirtGenericVIFDriver
+ Q_ML2_PLUGIN_VXLAN_TYPE_OPTIONS=(vni_ranges=400:500)
+ Q_ML2_PLUGIN_MECHANISM_DRIVERS=openvswitch,svlan,l2population
+ Q_ML2_PLUGIN_TYPE_DRIVERS=vxlan,gre,svlan,flat,local,vlan
+ ENABLE_TENANT_TUNNELS=True
+ TENANT_TUNNEL_RANGE=50:100
+##################################
+# neutron setting end
+##################################
+
+# Set the default Nova APIs to enable
+NOVA_ENABLED_APIS=osapi_compute,metadata
+
+# SCREEN_LOGDIR=/opt/stack/log
+# OFFLINE=True
+LOG_COLOR=False
+LOGFILE=/opt/stack/log/stack.log
+KEYSTONE_TOKEN_FORMAT=UUID
+
+MYSQL_PASSWORD=ntse
+RABBIT_PASSWORD=ntse
+SERVICE_TOKEN=ntse
+SERVICE_PASSWORD=ntse
+ADMIN_PASSWORD=ntse
+
+REPO_USER=$USER
+
+NOVA_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/nova.git
+NOVA_BRANCH=netease/havana
+
+GLANCE_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/glance.git
+GLANCE_BRANCH=netease/havana
+
+GLANCECLIENT_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/python-glanceclient
+GLANCECLIENT_BRANCH=netease/havana
+
+KEYSTONE_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/keystone.git
+KEYSTONE_BRANCH=netease/havana
+
+NOVACLIENT_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/python-novaclient.git
+NOVACLIENT_BRANCH=netease/havana
+
+KEYSTONECLIENT_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/python-keystoneclient
+KEYSTONECLIENT_BRANCH=netease/havana
+
+OPENSTACKCLIENT_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/python-openstackclient
+OPENSTACKCLIENT_BRANCH=netease/master
+
+NEUTRON_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/neutron.git
+NEUTRON_BRANCH=netease/havana
+
+NEUTRONCLIENT_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/python-neutronclient.git
+NEUTRONCLIENT_BRANCH=netease/havana
+
+UMBRELLA_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/umbrella.git
+UMBRELLA_BRANCH=netease/havana
+
+TEMPEST_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/tempest.git
+TEMPEST_BRANCH=netease/havana
+
+CINDER_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/cinder
+CINDER_BRANCH=netease/havana
+
+CINDERCLIENT_REPO=ssh://$REPO_USER@scm.cloud.netease.com:2222/openstack/python-cinderclient
+CINDERCLIENT_BRANCH=netease/havana
+
+NOVNC_REPO=https://git.oschina.net/gtt116/noVNC.git
+
+IMAGE_URLS="http://git.oschina.net/gtt116/cirros/raw/d8faaf2dc84ca478965f6c546af77bb998f0ae35/cirros-0.3.0-x86_64-disk.img"
+
+jks=`echo $KEYSTONE_REPO | grep jenkin -c`
+if [ ${jks} != 0 ]; then
+    set -e
+    echo "Testing repo url"
+    echo "+------------------------------------------------------+"
+    echo "| Remember to override '$REPO_USER' in localrc"
+    echo "|"
+    echo "| $KEYSTONE_REPO"
+    echo "+------------------------------------------------------+"
+    git clone -q $KEYSTONE_REPO /tmp/keystone
+    rm -rf /tmp/keystone
+    set +e
+fi
