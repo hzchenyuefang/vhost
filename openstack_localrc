@@ -1,0 +1,103 @@
+ ##########################Gloable configuration########################
+DATABASE_PASSWORD=ntse   #数据库的密码
+ADMIN_PASSWORD=ntse      #admin用户的密码
+SERVICE_PASSWORD=ntse    #每个service对应用户的密码
+SERVICE_TOKEN=ntse      #每个service的TOKEN
+RABBIT_PASSWORD=ntse     #Message MQ的密码
+  
+# Reclone each time 
+#RECLONE=true 
+   
+# Python enviroments 
+#OFFLINE=true 
+   
+## For Keystone 
+KEYSTONE_TOKEN_FORMAT=PKI 
+   
+## For Swift 
+#SWIFT_REPLICAS=1 
+#SWIFT_HASH=011688b44136573e209e 
+   
+##################openstack和devstack的日志文件的存放位置######################
+DEST=/opt/stack 
+LOGFILE=$DEST/logs/stack.sh.log 
+VERBOSE=True 
+LOG_COLOR=True 
+SCREEN_LOGDIR=$DEST/logs 
+   
+# ################################服务配置##################################
+# Pre#requisite 
+ENABLED_SERVICES=rabbit,mysql,key 
+   
+#############################消息队列配置###################################
+## If you want ZeroMQ instead of RabbitMQ (don't forget to un-declare 'rabbit' from the pre#requesite) 
+#ENABLED_SERVICES+=,-rabbit,-qpid,zeromq 
+   
+## If you want Qpid instead of RabbitMQ (don't forget to un-declare 'rabbit' from the pre#requesite) 
+#ENABLED_SERVICES+=,-rabbit,-zeromq,qpid 
+  
+######################每个服务单独配置代码下载地址#########################
+# Horizon (Dashboard UI) - (always use the trunk) 
+#ENABLED_SERVICES+=,horizon 
+#HORIZON_REPO=https://github.com/openstack/horizon 
+#HORIZON_BRANCH=master 
+  
+######################NOVA服务配置#######################################   
+# Nova - Compute Service 
+ENABLED_SERVICES+=,n-api,n-crt,n-obj,n-cpu,n-cond,n-sch,n-novnc,n-cauth
+IMAGE_URLS+=",https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img" 
+   
+## Nova Cells 
+ENABLED_SERVICES+=,n-cell 
+  
+###########################Glance服务配置###############################
+# Glance - Image Service 
+ENABLED_SERVICES+=,g-api,g-reg 
+   
+#####################swift服务配置##############################
+# Swift - Object Storage 
+#ENABLED_SERVICES+=,s-proxy,s-object,s-container,s-account 
+   
+#####################网络服务配置:负载均衡、VPN和防火墙服务#################
+  
+# Neutron - Networking Service 
+# If Neutron is not declared the old good nova-network will be used 
+ENABLED_SERVICES+=,q-svc,q-agt,q-dhcp,q-l3,q-meta,neutron  
+#VIF_PLUGGING_IS_FATAL=False
+#VIF_PLUGGING_TIMEOUT=10
+  
+  
+## Neutron - Load Balancing 
+#ENABLED_SERVICES+=,q-lbaas 
+   
+## Neutron - VPN as a Service 
+#ENABLED_SERVICES+=,q-vpn 
+   
+## Neutron - Firewall as a Service 
+#ENABLED_SERVICES+=,q-fwaas 
+   
+# VXLAN tunnel configuration 
+Q_PLUGIN=ml2 
+Q_ML2_TENANT_NETWORK_TYPE=vxlan
+  
+####################cinder服务配置##############################
+# Cinder - Block Device Service 
+ENABLED_SERVICES+=,cinder,c-api,c-vol,c-sch 
+   
+####################heat服务配置################################
+# Heat - Orchestration Service 
+#ENABLED_SERVICES+=,heat,h-api,h-api-cfn,h-api-cw,h-eng 
+#IMAGE_URLS+=",http://fedorapeople.org/groups/heat/prebuilt-jeos-images/F17-x86_64-cfntools.qcow2" 
+  
+##################Ceilometer服务配置############################ 
+# Ceilometer - Metering Service (metering + alarming) 
+#CEILOMETER_BACKEND=mysql 
+#ENABLED_SERVICES+=,ceilometer-acompute,ceilometer-acentral,ceilometer-collector,ceilometer-api 
+#ENABLED_SERVICES+=,ceilometer-alarm-notify,ceilometer-alarm-eval 
+  
+##############keystone和swift采用apache作为web前端配置###########  
+# Apache fronted for WSGI 
+APACHE_ENABLED_SERVICES+=keystone
+#,swift
+  
+#GIT_BASE=http://review.thstack.com
