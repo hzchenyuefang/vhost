@@ -1,4 +1,4 @@
-ENABLED_SERVICES=g-api,g-reg,key,c-api,c-vol,c-sch,n-api,n-crt,n-cpu,n-cond,n-sch,n-novnc,n-xvnc,n-cauth,mysql,rabbit,u-api,u-post,tempest
+ENABLED_SERVICES=g-api,g-reg,key,c-api,c-vol,c-sch,n-api,n-crt,n-cpu,n-cond,n-sch,n-novnc,n-xvnc,n-cauth,mysql,rabbit,u-api,tempest
 
 ##################################
 # Enable Neutron (a single node setup) un-comment below commands
