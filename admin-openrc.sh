@@ -8,5 +8,4 @@ export OS_AUTH_STRATEGY=keystone
 #export OS_SERVICE_ENDPOINT=http://localhost:35357/v2.0
 #unset  OS_SERVICE_TOKEN    
 #unset  OS_SERVICE_ENDPOINT
-line 0: just test on host devstack
 line 1: add test git
