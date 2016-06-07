@@ -80,7 +80,7 @@ mechanism_drivers = openvswitch,svlan,l2population
 # Example: vxlan_group = 239.1.1.1
 
 [ovs]
-local_ip = 10.180.156.26
+local_ip = 10.166.224.16
 enable_tunneling = True
 # Enable accesslist control, only available for SVLan network type
 enable_acl = True
@@ -92,7 +92,7 @@ permit_arp_broadcast = True
 #and DHCP server packets
 enable_l2_security = True
 
-bridge_mappings = public-demo:br-wan-demo
+bridge_mappings = public:br-wan
 
 [QOS]
 #default is true, and only for egress traffic from VM
@@ -121,7 +121,7 @@ qos_phy_dev = eth0
 #is enabled.
 #dev_max_pps = 50
 [database]
-connection = mysql://root:ntse@10.180.156.19/neutron_ml2?charset=utf8
+connection = mysql://root:ntse@10.166.224.31/neutron_ml2?charset=utf8
 
 [agent]
 tunnel_types = vxlan,gre
